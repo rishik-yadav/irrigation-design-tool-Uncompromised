@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container summary-page">
+  <h2 class="title"><i class="fas fa-clipboard-check"></i> Final Inventory Summary</h2>
+  <p class="subtitle">Here is the list of all selected materials and their specifications.</p>
+
+  <div class="summary-grid">
+    {% for key, value in summary.items() %}
+      <div class="summary-item">
+        <span class="label">{{ key.replace('_', ' ').title() }}</span>
+        <span class="value">{{ value }}</span>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="results-buttons">
+    <a href="/download-pdf" class="btn btn-outline"><i class="fas fa-file-download"></i> Download List</a>
+    <a href="/" class="btn btn-primary"><i class="fas fa-redo"></i> Start New Design</a>
+  </div>
+</div>
+{% endblock %}

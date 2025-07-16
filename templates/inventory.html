@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container inventory-page">
+  <h2 class="title"><i class="fas fa-clipboard-list"></i> Inventory Selection</h2>
+  <p class="subtitle">Select and confirm your inventory.</p>
+
+  <form method="POST" action="/inventory">
+
+    <!-- HEAD CONTROL -->
+    <div class="inventory-section">
+      <h3><i class="fas fa-cogs"></i> Head Control</h3>
+
+      <label>Motor (HP)</label>
+      <select name="motor_hp" class="inventory-select">
+        <option selected>None</option>
+        <option>1 HP</option>
+        <option>2 HP</option>
+        <option>3 HP</option>
+        <option>5 HP</option>
+        <option>7.5 HP</option>
+        <option>10 HP</option>
+      </select>
+
+      <label>Pump Type</label>
+      <select name="pump_type" class="inventory-select">
+        <option selected>None</option>
+        <option>Centrifugal pump (Recommended)</option>
+        <option>Submersible pump</option>
+        <option>Booster pump</option>
+      </select>
+
+      <label>Filter</label>
+      <select name="filter" class="inventory-select">
+        <option selected>None</option>
+        <option>Hydrocyclone filter</option>
+        <option>Disc filter</option>
+        <option>Sand media filter</option>
+      </select>
+
+      <label>Fertilizer Injector</label>
+      <select name="injector" class="inventory-select">
+        <option selected>None</option>
+        <option>Venturi injector</option>
+        <option>Fertilizer tank</option>
+      </select>
+
+      <label>Pressure Regulator</label>
+      <select name="pressure_regulator" class="inventory-select">
+        <option selected>None</option>
+        <option>Standard PRV</option>
+        <option>Adjustable PRV</option>
+      </select>
+    </div>
+
+    <!-- DISTRIBUTION SYSTEM -->
+    <div class="inventory-section">
+      <h3><i class="fas fa-project-diagram"></i> Distribution</h3>
+
+      <label>Mainline Pipe Diameter</label>
+      <select name="mainline_pipe" class="inventory-select">
+        <option selected>None</option>
+        {% for dia in [63, 75, 90, 110] %}
+          {% if dia >= 45 %}
+            <option>PVC {{ dia }} mm</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+
+      <label>Sub-mains</label>
+      <select name="submains" class="inventory-select">
+        <option selected>None</option>
+        <option>HDPE 50 mm</option>
+        <option>PVC 50 mm</option>
+      </select>
+
+      <label>Drip Laterals</label>
+      <select name="drip_laterals" class="inventory-select">
+        <option selected>None</option>
+        <option>16 mm Inline lateral</option>
+        <option>20 mm Online lateral</option>
+      </select>
+
+      <label>Emitters</label>
+      <select name="emitters" class="inventory-select">
+        <option selected>None</option>
+        <option>2 L/h inline dripper</option>
+        <option>4 L/h online dripper</option>
+      </select>
+    </div>
+
+    <!-- FITTINGS -->
+    <div class="inventory-section">
+      <h3><i class="fas fa-tools"></i> Fittings</h3>
+
+      <label>Number of Tees</label>
+      <input type="number" name="tees" min="0" class="inventory-select" placeholder="e.g. 10">
+
+      <label>Number of Elbows</label>
+      <input type="number" name="elbows" min="0" class="inventory-select" placeholder="e.g. 12">
+
+      <label>Number of Reducers</label>
+      <input type="number" name="reducers" min="0" class="inventory-select" placeholder="e.g. 5">
+
+      <label>Number of End Caps</label>
+      <input type="number" name="end_caps" min="0" class="inventory-select" placeholder="e.g. 4">
+    </div>
+
+    <!-- ACCESSORIES -->
+    <div class="inventory-section">
+      <h3><i class="fas fa-puzzle-piece"></i> Accessories</h3>
+
+      <label>Air/Vacuum Release Valve</label>
+      <select name="air_valve" class="inventory-select">
+        <option selected>None</option>
+        <option>Plastic 15 mm</option>
+        <option>Metal 20 mm</option>
+      </select>
+    </div>
+
+    <!-- CONTROL SYSTEM -->
+    <div class="inventory-section">
+      <h3><i class="fas fa-sliders-h"></i> Control System</h3>
+
+      <label>Controller</label>
+      <select name="controller" class="inventory-select">
+        <option selected>None</option>
+        <option>Solar/battery timer</option>
+        <option>Electric controller</option>
+      </select>
+
+      <label>Number of Solenoid Valves</label>
+      <input type="number" name="valves" min="0" class="inventory-select" placeholder="e.g. 2">
+
+      <label>Number of Manual Ball Valves</label>
+      <input type="number" name="ball_valves" min="0" class="inventory-select" placeholder="e.g. 3">
+    </div>
+
+    <!-- SPRINKLERS -->
+    <div class="inventory-section">
+      <h3><i class="fas fa-shower"></i> Sprinklers</h3>
+
+      <label>Sprinkler Type</label>
+      <select name="sprinklers" class="inventory-select">
+        <option selected>None</option>
+        <option>Pop-up spray head</option>
+        <option>Rotor heads</option>
+        <option>Microsprinklers</option>
+      </select>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="results-buttons">
+      <a href="/results" class="btn btn-outline">Back</a>
+      <button type="submit" class="btn btn-primary">Confirm & Continue</button>
+    </div>
+
+  </form>
+</div>
+{% endblock %}

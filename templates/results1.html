@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="results-page">
+  <h2>Irrigation System Design Summary</h2>
+  <p class="subtitle">Professional engineering calculations and recommendations</p>
+
+  <!-- Pump Specifications -->
+  <div class="results-section">
+    <h4><i class="fas fa-cogs"></i> Recommended Pump Specifications</h4>
+    <div class="results-grid">
+      <div class="results-box">
+        <span class="label">Flow Rate</span>
+        <span class="value">{{ design.flow_total }} L/s</span>
+      </div>
+      <div class="results-box">
+        <span class="label">Head</span>
+        <span class="value">{{ design.TDH_m }} m</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pipe Diameter and Zones -->
+  <div class="results-grid">
+    <div class="results-section">
+      <h4><i class="fas fa-slash"></i> Recommended Pipe Diameter</h4>
+      <div class="results-box">
+        <span class="label">Main Line Diameter</span>
+        <span class="value">{{ design.pipe_diameter }} mm</span>
+        <span class="label">Optimal for {{ design.flow_total }} L/s total flow</span>
+      </div>
+    </div>
+    <div class="results-section">
+      <h4><i class="fas fa-th-large"></i> Recommendation on No. of Zones</h4>
+      <div class="results-box">
+        <span class="label">No.of Zones are</span>
+        <span class="value">{{ design.Verdict }}</span>
+        <span class="label">on the basis of your farm data</span>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Flow + Losses -->
+  <div class="results-grid">
+    <div class="results-box">
+      <span class="label">Total Flow Required</span>
+      <span class="value">{{ design.flow_total }} L/s</span>
+    </div>
+    <div class="results-box">
+      <span class="label">Friction Loss</span>
+      <span class="value">{{ design.friction_loss_m }} m</span>
+    </div>
+    <div class="results-box">
+      <span class="label">Flow Velocity</span>
+      <span class="value">{{ design.velocity_mps }} m/s</span>
+    </div>
+    <div class="results-box">
+      <span class="label">Total Dynamic Head</span>
+      <span class="value">{{ design.TDH_m }} m</span>
+    </div>
+    <div class="results-box">
+      <span class="label">Flow per Zone</span>
+      <span class="value">{{ design.flow_per_zone }} L/s</span>
+    </div>
+    <div class="results-box">
+      <span class="label">Area</span>
+      <span class="value">{{ design.Areao }} m²</span>
+    </div>
+  </div>
+
+  
+
+  <!-- Buttons -->
+  <div class="results-buttons">
+    <a href="/inventory" class="btn btn-primary"><i class="fas fa-tools"></i> Select Inventory</a>
+    <a href="/" class="btn btn-outline"><i class="fas fa-sync-alt"></i> New Design</a>
+  </div>
+</section>
+{% endblock %}

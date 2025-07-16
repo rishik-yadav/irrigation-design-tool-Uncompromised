@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="manual-page">
+  <div class="manual-card container">
+    <div class="card-header">
+      <h4><i class="fas fa-calculator"></i> Enter Farm Data</h4>
+      <small>Enter your farm area and elevation head</small>
+    </div>
+    <form method="POST">
+      <div class="row gx-4 gy-4 mt-4">
+        <div class="col-md-6">
+          <label class="form-label">
+            <i class="fas fa-map-marker-alt text-success"></i> Area (in acres)
+          </label>
+          <input type="number" name="area" step="0.01" required class="form-control" placeholder="Enter area in acres" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">
+            <i class="fas fa-chart-line text-success"></i> Elevation Difference (in meters)
+          </label>
+          <input type="number" name="elevation" step="0.01" required class="form-control" placeholder="Enter elevation difference" />
+        </div>
+      </div>
+      <div class="d-flex justify-content-center mt-4 gap-3">
+        <button type="submit" class="btn btn-success px-4"><i class="fas fa-check-circle me-1"></i> Submit</button>
+        <button type="reset" class="btn btn-outline-dark px-4"><i class="fas fa-undo me-1"></i> Reset</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

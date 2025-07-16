@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="inputs-page">
+  <div class="inputs-card container">
+    <div class="card-header">
+      <h4><i class="fas fa-seedling"></i> Irrigation System Designer</h4>
+      <small>Enter crop and system parameters for optimal design computation</small>
+    </div>
+    <form method="POST">
+      <div class="section-title mt-4"><i class="fas fa-mountain text-success"></i> Terrain Parameters</div>
+      <div class="row gx-4 gy-4">
+        <div class="col-md-6">
+          <label class="form-label">Soil Type *</label>
+          <select class="form-control" name="soil" required>
+            <option disabled selected>Select soil type</option>
+            <option value="clay">Clay</option>
+            <option value="loam">Loam</option>
+            <option value="sandy">Sandy</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Slope (%) *</label>
+          <input type="number" name="slope" step="0.1" class="form-control" placeholder="e.g., 2.5" required>
+        </div>
+      </div>
+
+      <div class="section-title mt-4"><i class="fas fa-tint text-success"></i> Water Requirements</div>
+      <div class="row gx-4 gy-4">
+        <div class="col-12">
+          <label class="form-label">Water Demand (mm/day) *</label>
+          <input type="number" name="water_demand" step="0.1" class="form-control" placeholder="e.g., 5" required>
+        </div>
+      </div>
+
+      <div class="section-title mt-4"><i class="fas fa-cogs text-success"></i> System Configuration</div>
+      <div class="row gx-4 gy-4">
+        <div class="col-md-6">
+          <label class="form-label">Irrigation Method *</label>
+          <select class="form-control" name="method" required>
+            <option disabled selected>Select method</option>
+            <option value="drip">Drip</option>
+            <option value="sprinkler">Sprinkler</option>
+            <option value="pop-up">Pop-Up</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Pipe Length (m) *</label>
+          <input type="number" name="pipe_length" step="1" class="form-control" placeholder="e.g., 100" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Pipe Material *</label>
+          <select class="form-control" name="material" required>
+            <option disabled selected>Select material</option>
+            <option value="PVC">PVC</option>
+            <option value="HDPE">HDPE</option>
+            <option value="LDPE">LDPE</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Zone Count *</label>
+          <select class="form-control" name="Zone" required>
+            <option disabled selected>Select zones</option>
+            <option value="Suggest">Suggest</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center mt-4">
+        <button type="submit" class="btn btn-success px-4">
+          <i class="fas fa-calculator me-1"></i> Compute Design
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

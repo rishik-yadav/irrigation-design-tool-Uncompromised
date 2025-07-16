@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="boundary-page container">
+  <h2 class="boundary-title">Mark Your Farm Boundary</h2>
+  <p class="boundary-subtitle">Draw the boundary of your farm to auto-calculate area and elevation data</p>
+
+  <div class="boundary-layout" style="display: flex; gap: 2rem; flex-wrap: wrap;">
+    <!-- Left: Map -->
+    <div class="boundary-map" style="flex: 2; min-width: 300px;">
+      <div id="map" style="height: 500px; border-radius: 10px;"></div>
+    </div>
+
+    <!-- Right: Instructions -->
+    <div class="boundary-info" style="flex: 1; min-width: 250px;">
+      <div class="boundary-card">
+        <h3><i class="fas fa-lightbulb"></i> Steps to Use</h3>
+        <ul style="margin-left: 1rem;">
+          <li>Use search bar to locate your farm</li>
+          <li>Click the polygon tool on the map</li>
+          <li>Click to create boundary points</li>
+          <li>Double-click to complete the shape</li>
+        </ul>
+      </div>
+      <div class="boundary-card">
+        <h3><i class="fas fa-map-marked-alt"></i> Benefits</h3>
+        <ul style="margin-left: 1rem;">
+          <li>Automatic area calculation</li>
+          <li>Elevation data analysis</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <button class="submit-button" onclick="submitBoundary()">Submit Farm Boundary</button>
+</div>
+
+<!-- Required Stylesheets -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+<link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css" />
+
+<!-- Required JS Scripts -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+<script src="https://unpkg.com/esri-leaflet"></script>
+<script src="https://unpkg.com/esri-leaflet-geocoder"></script>
+
+<script>
+  let drawnCoords = [];
+
+  const map = L.map('map').setView([24.5854, 73.7125], 13);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data © OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Drawing Setup
+  const drawnItems = new L.FeatureGroup();
+  map.addLayer(drawnItems);
+
+  const drawControl = new L.Control.Draw({
+    draw: {
+      polyline: false,
+      circle: false,
+      rectangle: false,
+      marker: false,
+      circlemarker: false,
+      polygon: {
+        allowIntersection: false,
+        showArea: true
+      }
+    },
+    edit: {
+      featureGroup: drawnItems
+    }
+  });
+  map.addControl(drawControl);
+
+  map.on(L.Draw.Event.CREATED, function (event) {
+    const layer = event.layer;
+    drawnItems.clearLayers();
+    drawnItems.addLayer(layer);
+    drawnCoords = layer.getLatLngs()[0].map(latlng => [latlng.lat, latlng.lng]);
+  });
+
+  // Esri Geosearch
+  const searchControl = L.esri.Geocoding.geosearch({
+    position: 'topright',
+    placeholder: 'Search for village or town',
+    useMapBounds: false,
+    expanded: true
+  }).addTo(map);
+
+  const results = L.layerGroup().addTo(map);
+  searchControl.on("results", function(data) {
+    results.clearLayers();
+    if (data.results.length > 0) {
+      map.setView(data.results[0].latlng, 15);
+      results.addLayer(L.marker(data.results[0].latlng));
+    } else {
+      alert("Location not found.");
+    }
+  });
+
+  function submitBoundary() {
+    if (drawnCoords.length === 0) {
+      alert("Please draw a boundary first.");
+      return;
+    }
+
+    fetch("/boundary", {
+      method: "POST",
+      body: JSON.stringify({ coordinates: drawnCoords }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'ok') {
+        window.location.href = "/inputs";
+      } else {
+        alert(data.message || "Something went wrong.");
+      }
+    });
+  }
+</script>
+{% endblock %}
